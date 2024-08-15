@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.spinner-hide::-webkit-inner-spin-button,
+.spinner-hide::-webkit-outer-spin-button {
+    @apply appearance-none m-0;
+}
