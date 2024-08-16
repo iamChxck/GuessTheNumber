@@ -9,13 +9,12 @@ const SpeedControl: React.FC<SpeedControlProps> = ({ onSpeedChange }) => {
   const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const speedValue = parseInt(e.target.value, 10);
 
-    // Define the speedMapping using a Record type
     const speedMapping: Record<number, number> = {
-      1: 10, // Slowest
+      1: 10,
       2: 7.5,
       3: 5,
       4: 2.5,
-      5: .1  // Fastest
+      5: 1,
     };
 
     if (onSpeedChange) {
@@ -25,7 +24,7 @@ const SpeedControl: React.FC<SpeedControlProps> = ({ onSpeedChange }) => {
 
   return (
     <>
-      <div className="flex items-center space-x-2 mb-2">
+      <div className="flex items-center space-x-2 mb-2 w-full">
         <img src={Knob} alt="Speed Icon" className="w-6 h-6" />
         <div className="text-white text-sm text-xl">Speed</div>
       </div>

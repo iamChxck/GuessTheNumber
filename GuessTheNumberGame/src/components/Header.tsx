@@ -12,11 +12,11 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ totalPoints, setWager, multiplier, setMultiplier }) => {
   return (
-    <div className="flex justify-center items-center p-4 text-white space-x-4">
+    <div className="flex justify-center items-center p-4 text-white space-x-4  w-full">
       <div className="flex space-x-4">
         <PointsControl 
           totalPoints={totalPoints} 
-          onWagerChange={setWager} // Pass this to PointsControl
+          onWagerChange={setWager}
         />
         <MultiplierControl 
           value={multiplier} 

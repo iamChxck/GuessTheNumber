@@ -15,6 +15,7 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
   const [data, setData] = useState<number[]>([]);
   const [steps, setSteps] = useState<number[]>([]);
   const [currentMultiplier, setCurrentMultiplier] = useState(0);
+  const [isFinished, setIsFinished] = useState(false); // Track if the graph has finished
 
   useEffect(() => {
     if (running) {
@@ -22,6 +23,7 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
       setData([]);
       setSteps([]);
       setCurrentMultiplier(0);
+      setIsFinished(false); // Reset the finished state
 
       let x = 0;
       const interval = setInterval(() => {
@@ -34,6 +36,7 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
 
         if (x >= 10 || y >= stopMultiplier) {
           clearInterval(interval); // Stop when reaching the end of the x-axis or stopMultiplier
+          setIsFinished(true); // Mark the graph as finished
           if (onFinish) {
             onFinish(); // Call onFinish to re-enable the start button
           }
@@ -102,7 +105,9 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
   return (
     <div className="w-full h-96 relative">
       <Line data={chartData} options={options} />
-      <div className="absolute top-[30%] left-[25%] transform -translate-y-1/2 text-red-500 text-6xl font-bold">
+      <div
+        className={`absolute top-[30%] left-[35%] transform -translate-y-1/2 text-[70px] font-bold ${isFinished ? 'text-red-500' : 'text-white'}`}
+      >
         {currentMultiplier.toFixed(2)}x
       </div>
     </div>

@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-900 min-h-screen">
+    <div className="p-4 bg-gray-900 min-h-screen flex flex-col justify-center items-center">
       <Header 
         totalPoints={totalPoints} 
         wager={wager} 
@@ -25,11 +25,12 @@ const HomePage: React.FC = () => {
         multiplier={multiplier} 
         setMultiplier={setMultiplier} 
       />
-       <Hero 
-        totalPoints={totalPoints}
-        wager={wager}  
-        multiplier={multiplier}
+      <Hero 
+        totalPoints={totalPoints} 
+        wager={wager} 
+        multiplier={multiplier} 
         onStart={handleStart} 
+        setTotalPoints={setTotalPoints}  // Pass down the setTotalPoints function
       />
     </div>
   );
