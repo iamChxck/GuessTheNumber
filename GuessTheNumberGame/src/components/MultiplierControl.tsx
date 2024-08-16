@@ -11,10 +11,10 @@ const MultiplierControl: React.FC<MultiplierControlProps> = ({ value, onValueCha
     <ValuesToChangeCard
       label="Multiplier"
       value={value}
-      increment={0.1} // or any increment you prefer
+      increment={0.1}
       onValueChange={onValueChange}
-      totalPoints={10} // assuming the max multiplier is 10
-      formatValue={(v) => v.toFixed(2)} // To show two decimal places
+      totalPoints={10}
+      formatValue={(v) => v.toFixed(2)}
     />
   );
 };

@@ -9,9 +9,9 @@ interface HeroProps {
   wager: number;
   multiplier: number;
   onStart?: () => void;
-  setTotalPoints: React.Dispatch<React.SetStateAction<number>>;  // Updated type here
-  leaderboard: LeaderboardEntry[]; // Array for leaderboard entries
-  setLeaderboard: React.Dispatch<React.SetStateAction<LeaderboardEntry[]>>; // Function to update leaderboard
+  setTotalPoints: React.Dispatch<React.SetStateAction<number>>;
+  leaderboard: LeaderboardEntry[];
+  setLeaderboard: React.Dispatch<React.SetStateAction<LeaderboardEntry[]>>;
 }
 
 interface AIPlayer {
@@ -64,7 +64,6 @@ const Hero: React.FC<HeroProps> = ({
     setLeaderboard((prev: LeaderboardEntry[]) => {
       let updated = false;
 
-      // Remove placeholder entries (i.e., `name === '-'` or `points === 0`)
       let filteredLeaderboard = prev.filter(entry => entry.name !== '-' || entry.points !== 0);
 
       // Update the existing entry or add a new one

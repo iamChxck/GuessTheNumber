@@ -5,7 +5,7 @@ interface Player {
   name: string;
   points: number;
   multiplier: number;
-  highlight?: boolean; // Optional highlight property
+  highlight?: boolean;
 }
 
 interface CurrentRoundProps {
