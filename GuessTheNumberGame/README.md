@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+Guess The Number Game
+Overview
+Guess The Number Game is an interactive web application where players guess when a multiplier will freeze, placing bets accordingly. The game includes AI players, a leaderboard, and a chat feature powered by WebSockets. The application is built using React with TypeScript, Tailwind CSS for styling, and a WebSocket server for real-time chat communication.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+Real-time Multiplayer Game: Players and AI compete by betting on when the multiplier will stop.
+Leaderboard: Displays the top five players based on their winnings.
+Chat Feature: Allows players to communicate in real-time during the game, with AI players sending random messages.
 
-Currently, two official plugins are available:
+Installation
+Clone the repository:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+git clone https://github.com/your-username/guess-the-number-game.git
+cd guess-the-number-game
+Install dependencies for the main application:
 
-## Expanding the ESLint configuration
+npm install
+Navigate to the WebSocket server directory and install its dependencies:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+cd websocket-server
+npm install
+cd ..
+Running the Application
+Development Mode
+Start the WebSocket server:
 
-- Configure the top-level `parserOptions` property like this:
+From the root directory, run:
+npm run server
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Start the React application:
+In a separate terminal, from the root directory, run:
+npm run dev
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Access the application:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Open your browser and navigate to http://localhost:3000.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Production Build
+To create a production build, run:
+
+npm run build
+This will generate the static files in the dist/ directory.
+
+Usage
+Playing the Game: Place your bet and start the game. The multiplier will increase, and you need to guess when it will freeze.
+Leaderboard: The leaderboard ranks players based on their highest winnings in a round.
+Chat: Use the chat box to communicate with other players. AI players will also send random messages at the start of the game.
+WebSocket Server
+The WebSocket server is located in the websocket-server/ directory and handles real-time communication for the chat feature. It listens for incoming messages and broadcasts them to all connected clients.

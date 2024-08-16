@@ -1,10 +1,11 @@
 import React from 'react';
 import Trophy from '../assets/award.png';
 
-interface AIPlayer {
+interface Player {
   name: string;
   points: number;
   multiplier: number;
+  highlight?: boolean; // Optional highlight property
 }
 
 interface CurrentRoundProps {
@@ -12,7 +13,7 @@ interface CurrentRoundProps {
   userMultiplier: number;
   graphMultiplier: number;
   resultReady: boolean;
-  aiPlayers: AIPlayer[];
+  aiPlayers: Player[]; // Use Player type for both player and AI
   gameStarted: boolean; // New prop to track if the game has started at least once
 }
 
@@ -24,7 +25,7 @@ const CurrentRound: React.FC<CurrentRoundProps> = ({
   aiPlayers,
   gameStarted,
 }) => {
-  const players = [
+  const players: Player[] = [
     { name: 'You', points: userPoints, multiplier: userMultiplier, highlight: true },
     ...aiPlayers
   ];
@@ -36,12 +37,12 @@ const CurrentRound: React.FC<CurrentRoundProps> = ({
 
   const displayPointsOrWinnings = (points: number) => {
     if (!gameStarted) return '-'; // Show '-' only before the game has started for the first time
-    return points.toFixed(0); // Show points after the game has started
+    return points.toFixed(2); // Show points after the game has started, fixed to 2 decimal places
   };
 
   const displayMultiplier = (multiplier: number) => {
     if (!gameStarted) return '-'; // Show '-' only before the game has started for the first time
-    return multiplier.toFixed(2); // Show multiplier after the game has started
+    return multiplier.toFixed(2); // Show multiplier after the game has started, fixed to 2 decimal places
   };
 
   return (

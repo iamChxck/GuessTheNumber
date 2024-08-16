@@ -9,9 +9,9 @@ interface HeroProps {
   wager: number;
   multiplier: number;
   onStart?: () => void;
-  setTotalPoints: (points: number) => void;
+  setTotalPoints: React.Dispatch<React.SetStateAction<number>>;  // Updated type here
   leaderboard: LeaderboardEntry[]; // Array for leaderboard entries
-  setLeaderboard: (leaderboard: LeaderboardEntry[]) => void; // Function to update leaderboard
+  setLeaderboard: React.Dispatch<React.SetStateAction<LeaderboardEntry[]>>; // Function to update leaderboard
 }
 
 interface AIPlayer {
@@ -29,9 +29,8 @@ const Hero: React.FC<HeroProps> = ({
   totalPoints,
   wager,
   multiplier,
-  onStart = () => { },
+  onStart = () => {},
   setTotalPoints,
-  leaderboard,
   setLeaderboard,
 }) => {
   const [running, setRunning] = useState(false);
@@ -62,33 +61,29 @@ const Hero: React.FC<HeroProps> = ({
   };
 
   const updateLeaderboard = (name: string, points: number) => {
-    setLeaderboard(prev => {
+    setLeaderboard((prev: LeaderboardEntry[]) => {
       let updated = false;
-  
+
       // Remove placeholder entries (i.e., `name === '-'` or `points === 0`)
       let filteredLeaderboard = prev.filter(entry => entry.name !== '-' || entry.points !== 0);
-  
+
       // Update the existing entry or add a new one
-      const updatedLeaderboard = filteredLeaderboard.map(entry => {
+      const updatedLeaderboard = filteredLeaderboard.map((entry: LeaderboardEntry) => {
         if (entry.name === name) {
           updated = true;
-          return { ...entry, points: points };
+          return { ...entry, points };
         }
         return entry;
       });
-  
+
       if (!updated) {
         updatedLeaderboard.push({ name, points });
       }
-  
+
       // Sort the leaderboard by points in descending order
       return updatedLeaderboard.sort((a, b) => b.points - a.points);
     });
   };
-  
-
-
-
 
   const handleStart = () => {
     const randomStop = parseFloat((Math.random() * 10).toFixed(2));
@@ -110,7 +105,7 @@ const Hero: React.FC<HeroProps> = ({
     if (multiplier <= stopMultiplier) {
       playerWin = wager * multiplier;
       setCurrentRoundPoints(playerWin);
-      setTotalPoints(prevPoints => prevPoints + playerWin);
+      setTotalPoints((prevPoints) => prevPoints + playerWin);
     } else {
       setCurrentRoundPoints(0);
     }
