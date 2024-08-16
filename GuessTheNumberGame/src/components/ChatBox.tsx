@@ -62,7 +62,7 @@ const ChatBox: React.FC = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={handleKeyPress} // Add keypress event listener
+          onKeyPress={handleKeyPress}
           className="flex-1 p-2 bg-gray-700 text-white rounded-l-lg"
           placeholder="Type your message..."
         />

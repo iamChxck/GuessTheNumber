@@ -8,11 +8,18 @@ interface HeaderProps {
   setWager: (value: number) => void;
   multiplier: number;
   setMultiplier: (value: number) => void;
+  playerName: string;  // Add playerName to HeaderProps
 }
 
-const Header: React.FC<HeaderProps> = ({ totalPoints, setWager, multiplier, setMultiplier }) => {
+const Header: React.FC<HeaderProps> = ({
+  totalPoints,
+  setWager,
+  multiplier,
+  setMultiplier,
+  playerName,  // Destructure playerName from props
+}) => {
   return (
-    <div className="flex justify-center items-center p-4 text-white space-x-4  w-full">
+    <div className="flex justify-center items-center p-4 text-white space-x-4 w-full">
       <div className="flex space-x-4">
         <PointsControl 
           totalPoints={totalPoints} 
@@ -24,9 +31,8 @@ const Header: React.FC<HeaderProps> = ({ totalPoints, setWager, multiplier, setM
         />
       </div>
       <PlayerInfoCard 
-        points={totalPoints} 
-        playerName="Thomas" 
-        currentTime="21:30" 
+        points={totalPoints}  // Use totalPoints prop for points
+        playerName={playerName}  // Use playerName prop instead of hardcoded value
       />
     </div>
   );
