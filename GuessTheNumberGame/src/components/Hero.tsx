@@ -10,6 +10,8 @@ interface HeroProps {
   multiplier: number;
   onStart?: () => void;
   setTotalPoints: (points: number) => void;
+  leaderboard: LeaderboardEntry[]; // Array for leaderboard entries
+  setLeaderboard: (leaderboard: LeaderboardEntry[]) => void; // Function to update leaderboard
 }
 
 interface AIPlayer {
@@ -18,12 +20,19 @@ interface AIPlayer {
   multiplier: number;
 }
 
+interface LeaderboardEntry {
+  name: string;
+  points: number;
+}
+
 const Hero: React.FC<HeroProps> = ({
   totalPoints,
   wager,
   multiplier,
-  onStart = () => {},
+  onStart = () => { },
   setTotalPoints,
+  leaderboard,
+  setLeaderboard,
 }) => {
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState(10);
@@ -33,7 +42,6 @@ const Hero: React.FC<HeroProps> = ({
   const [currentRoundPoints, setCurrentRoundPoints] = useState(wager);
   const [gameStarted, setGameStarted] = useState(false);
 
-  // AI Players state
   const [aiPlayers, setAIPlayers] = useState<AIPlayer[]>([
     { name: 'CPU 1', points: 0, multiplier: 0 },
     { name: 'CPU 2', points: 0, multiplier: 0 },
@@ -53,6 +61,35 @@ const Hero: React.FC<HeroProps> = ({
     })));
   };
 
+  const updateLeaderboard = (name: string, points: number) => {
+    setLeaderboard(prev => {
+      let updated = false;
+  
+      // Remove placeholder entries (i.e., `name === '-'` or `points === 0`)
+      let filteredLeaderboard = prev.filter(entry => entry.name !== '-' || entry.points !== 0);
+  
+      // Update the existing entry or add a new one
+      const updatedLeaderboard = filteredLeaderboard.map(entry => {
+        if (entry.name === name) {
+          updated = true;
+          return { ...entry, points: points };
+        }
+        return entry;
+      });
+  
+      if (!updated) {
+        updatedLeaderboard.push({ name, points });
+      }
+  
+      // Sort the leaderboard by points in descending order
+      return updatedLeaderboard.sort((a, b) => b.points - a.points);
+    });
+  };
+  
+
+
+
+
   const handleStart = () => {
     const randomStop = parseFloat((Math.random() * 10).toFixed(2));
     setStopMultiplier(randomStop);
@@ -60,29 +97,36 @@ const Hero: React.FC<HeroProps> = ({
     setResultReady(false);
     setCurrentRoundPoints(wager);
     setGameStarted(true);
-    generateRandomValues(); // Generate random values for AI players
+    generateRandomValues();
     onStart();
   };
 
   const handleFinish = () => {
     setRunning(false);
     setResultReady(true);
-  
+
+    let playerWin = 0;
+
     if (multiplier <= stopMultiplier) {
-      const winnings = wager * multiplier;
-      setCurrentRoundPoints(winnings);
-      const newTotalPoints = totalPoints + winnings;
-      setTotalPoints(newTotalPoints);
+      playerWin = wager * multiplier;
+      setCurrentRoundPoints(playerWin);
+      setTotalPoints(prevPoints => prevPoints + playerWin);
     } else {
       setCurrentRoundPoints(0);
     }
 
-    // Update AI players' winnings
+    updateLeaderboard('You', playerWin); // Update leaderboard with player's current round win
+
+    // Handle AI players
     setAIPlayers(prevAIPlayers =>
-      prevAIPlayers.map(player => ({
-        ...player,
-        points: player.multiplier <= stopMultiplier ? player.points * player.multiplier : 0,
-      }))
+      prevAIPlayers.map(player => {
+        const aiWin = player.multiplier <= stopMultiplier ? player.points * player.multiplier : 0;
+        updateLeaderboard(player.name, aiWin); // Update leaderboard with AI's current round win
+        return {
+          ...player,
+          points: aiWin, // Update AI's current round points
+        };
+      })
     );
   };
 
@@ -91,7 +135,7 @@ const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <div className="flex justify-between items-start p-4 space-x-4 h-[80vh]">
+    <div className="flex justify-between items-start p-4 space-x-4 h-[65vh]">
       <div className="flex flex-col items-center space-y-6 w-[460px]">
         <Button
           text={running ? 'Running...' : 'Start'}
@@ -105,7 +149,7 @@ const Hero: React.FC<HeroProps> = ({
           graphMultiplier={stopMultiplier}
           resultReady={resultReady}
           gameStarted={gameStarted}
-          aiPlayers={aiPlayers} // Pass AI players
+          aiPlayers={aiPlayers}
         />
         <SpeedControl onSpeedChange={handleSpeedChange} />
       </div>
