@@ -1,5 +1,6 @@
 import React from 'react';
 import Knob from '../assets/knob.png';
+import SpeedControlObj from '../objects/SpeedControlObj';
 
 interface SpeedControlProps {
   onSpeedChange: (speed: number) => void;
@@ -7,21 +8,8 @@ interface SpeedControlProps {
 }
 
 const SpeedControl: React.FC<SpeedControlProps> = ({ onSpeedChange, gameIsRunning }) => {
-  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const speedValue = parseInt(e.target.value, 10);
-
-    const speedMapping: Record<number, number> = {
-      1: 10,
-      2: 7.5,
-      3: 5,
-      4: 2.5,
-      5: 1,
-    };
-
-    if (onSpeedChange) {
-      onSpeedChange(speedMapping[speedValue]);
-    }
-  };
+ 
+  const speedControlObj: SpeedControlObj = new SpeedControlObj(onSpeedChange);
 
   return (
     <>
@@ -39,7 +27,7 @@ const SpeedControl: React.FC<SpeedControlProps> = ({ onSpeedChange, gameIsRunnin
           className={`w-full appearance-none h-2 rounded-full cursor-pointer ${
             gameIsRunning ? 'bg-gray-500 cursor-not-allowed' : 'bg-gray-700'
           }`}
-          onChange={handleSpeedChange}
+          onChange={speedControlObj.handleSpeedChange}
           disabled={gameIsRunning}
         />
         <div className={`flex justify-between mt-2 text-sm ${gameIsRunning ? 'text-gray-400' : 'text-red-500'}`}>

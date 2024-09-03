@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Player from '../../objects/Player';
 import PlayerInfoCard from '../PlayerInfoCard';
 import WagerControl from '../WagerControl';

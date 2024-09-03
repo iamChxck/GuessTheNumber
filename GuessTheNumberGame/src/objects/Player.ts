@@ -1,4 +1,3 @@
-import BooleanModel from "../model/BooleanModel";
 import NumericModel from "../model/NumericModel";
 import PlayerData from "../model/PlayerModel";
 

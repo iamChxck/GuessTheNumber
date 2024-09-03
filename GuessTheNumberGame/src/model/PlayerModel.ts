@@ -5,6 +5,6 @@ export default interface PlayerData {
     points?: NumericModel;
     wager: NumericModel;
     multiplier: NumericModel;
-    win: NumericModel;
+    win?: NumericModel;
     nameHighlight?: boolean;
 }

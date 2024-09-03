@@ -56,14 +56,13 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
                                 {player.name}
                             </span>
                             <span className={`text-center ${resultReady.value ? scoreboardObj.determineTextColor(player.multiplier.value) : 'text-white'}`}>
-                                {resultReady.value ? scoreboardObj.displayWinnings(player.win.value) : scoreboardObj.placeholder[index].points}
+                                {resultReady.value ? scoreboardObj.displayWinnings(player.win?.value) : scoreboardObj.displayWinnings(player.wager.value)}
                             </span>
                             <span className={`text-right ${resultReady.value ? scoreboardObj.determineTextColor(player.multiplier.value) : 'text-white'}`}>
-                                {resultReady.value ? scoreboardObj.displayWinnings(player.multiplier.value) : scoreboardObj.placeholder[index].multiplier}
+                                {scoreboardObj.displayMultiplier(player.multiplier.value)}
                             </span>
                         </div>
-                    ))
-                    }
+                    ))}
                 </div>
             </div>
         </>

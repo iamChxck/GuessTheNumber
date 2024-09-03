@@ -4,7 +4,6 @@ import ScoreBoard from '../ScoreBoard';
 import Graph from '../Graph';
 import NumericModel from '../../model/NumericModel';
 import BooleanModel from '../../model/BooleanModel';
-import AIPlayer from '../../objects/AIPlayer';
 import SpeedControl from '../SpeedControl';
 import leaderBoardModel from '../../model/LeaderBoardModel';
 

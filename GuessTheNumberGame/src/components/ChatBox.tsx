@@ -1,62 +1,45 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PlayerData from '../model/PlayerModel';
-
-interface Message {
-  sender: string;
-  text: string;
-}
+import MessageModel from '../model/MessageModel';
+import ChatBoxObj from '../objects/ChatBoxObj';
 
 interface ChatBoxProps {
   playerName: string;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({ playerName }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<MessageModel[]>([]);
+  const [messageInput, setInput] = useState('');
   const serverAddress: string = 'ws://localhost:8080';
 
-  const ws = useRef<WebSocket | null>(null);
+  const webSocket = useRef<WebSocket | null>(null);
+
+  const chatBoxObj: ChatBoxObj = new ChatBoxObj(messageInput, playerName, setInput, webSocket);
 
   useEffect(() => {
-    ws.current = new WebSocket(serverAddress);
+    webSocket.current = new WebSocket(serverAddress);
 
-    ws.current.onopen = () => {
+    webSocket.current.onopen = () => {
       console.log('Connected to WebSocket server');
     };
 
-    ws.current.onmessage = async (event: MessageEvent) => {
+    webSocket.current.onmessage = async (event: MessageEvent) => {
       try {
         const data = await event.data.text();
-        const newMessage: Message = JSON.parse(data);
+        const newMessage: MessageModel = JSON.parse(data);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
     };
 
-    ws.current.onclose = () => {
+    webSocket.current.onclose = () => {
       console.log('Disconnected from WebSocket server');
     };
 
     return () => {
-      ws.current?.close();
+      webSocket.current?.close();
     };
   }, []);
-
-  const sendMessage = () => {
-    if (input.trim() !== '') {
-      const message: Message = { sender: playerName, text: input };
-      ws.current?.send(JSON.stringify(message));
-      setInput('');
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
 
   return (
     <div className="flex flex-col w-[600px] h-[300px]">
@@ -71,14 +54,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({ playerName }) => {
       <div className="flex mt-2">
         <input
           type="text"
-          value={input}
+          value={messageInput}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyPress={chatBoxObj.handleKeyPress}
           className="flex-1 p-2 bg-gray-700 text-white rounded-l-lg"
           placeholder="Type your message..."
         />
         <button
-          onClick={sendMessage}
+          onClick={chatBoxObj.sendMessage}
           className="p-2 bg-blue-500 text-white rounded-r-lg"
         >
           Send

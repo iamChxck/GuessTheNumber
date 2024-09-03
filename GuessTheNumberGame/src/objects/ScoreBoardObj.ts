@@ -22,8 +22,8 @@ export default class ScoreBoardObj extends ScoreHolderObj {
         return playerMultiplier <= this.graphMultiplier ? 'text-green-500' : 'text-red-500';
     };
     
-    public displayWinnings = (points: number) => {
-        return points.toFixed(2);
+    public displayWinnings = (points: number | undefined) => {
+        return points?.toFixed(2);
     };
 
     public displayMultiplier = (multiplier: number) => {

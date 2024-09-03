@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NameInputObj from '../objects/NameInputObj';
 
 interface NameInputProps {
   onNameSubmit: (name: string) => void;
@@ -7,16 +8,11 @@ interface NameInputProps {
 const NameInput: React.FC<NameInputProps> = ({ onNameSubmit }) => {
   const [name, setName] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim()) {
-      onNameSubmit(name.trim());
-    }
-  };
+  const nameInputObj: NameInputObj = new NameInputObj(name, onNameSubmit);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-900">
-      <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <form onSubmit={nameInputObj.handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg">
         <label htmlFor="name" className="block text-white text-xl mb-2">
           Enter your name:
         </label>

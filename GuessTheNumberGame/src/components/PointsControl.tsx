@@ -10,7 +10,7 @@ const PointsControl: React.FC<PointsControlProps> = ({ totalPoints, onWagerChang
   const [points, setPoints] = useState(100);
 
   useEffect(() => {
-    onWagerChange(points); // Call onWagerChange when points change
+    onWagerChange(points);
   }, [points, onWagerChange]);
 
   return (
