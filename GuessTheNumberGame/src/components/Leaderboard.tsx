@@ -1,16 +1,12 @@
 import React from 'react';
 import RankingIcon from '../assets/top-three.png';
-
-interface LeaderboardEntry {
-  name: string;
-  points: number;
-}
+import LeaderboardEntryModel from '../model/LeaderBoardEntryModel';
 
 interface LeaderboardProps {
-  leaderboard: LeaderboardEntry[];
+  leaderboard: LeaderboardEntryModel[];
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ leaderboard }) => {
+const LeaderBoard: React.FC<LeaderboardProps> = ({ leaderboard }) => {
   const placeholders = [
     { name: '-', points: 0 },
     { name: '-', points: 0 },
@@ -39,9 +35,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ leaderboard }) => {
           <tbody>
             {displayData.map((entry, index) => (
               <tr key={index}>
-                <td className="px-5 py-5 border-b border-gray-700 bg-gray-900 text-sm text-white">{index + 1}</td>
-                <td className="px-5 py-5 border-b border-gray-700 bg-gray-900 text-sm text-white">{entry.name}</td>
-                <td className="px-5 py-5 border-b border-gray-700 bg-gray-900 text-sm text-white">{entry.points.toFixed(2)}</td>
+                <td className="px-5 py-3 border-b border-gray-700 bg-gray-900 text-sm text-white">{index + 1}</td>
+                <td className="px-5 py-3 border-b border-gray-700 bg-gray-900 text-sm text-white">{entry.name}</td>
+                <td className="px-5 py-3 border-b border-gray-700 bg-gray-900 text-sm text-white">{typeof entry.points === 'number' ? entry.points.toFixed(2) : entry.points}</td>
               </tr>
             ))}
           </tbody>
@@ -51,4 +47,4 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ leaderboard }) => {
   );
 };
 
-export default Leaderboard;
+export default LeaderBoard;

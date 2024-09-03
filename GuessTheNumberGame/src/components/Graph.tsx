@@ -1,53 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, LineElement, PointElement, LinearScale, Title, CategoryScale, ChartOptions } from 'chart.js';
+import BooleanModel from '../model/BooleanModel';
+import NumericModel from '../model/NumericModel';
 
 Chart.register(LineElement, PointElement, LinearScale, Title, CategoryScale);
 
 interface GraphProps {
-  speed: number;
-  running: boolean;
-  stopMultiplier: number;
-  onFinish?: () => void; // Optional callback for when the graph finishes
+  speed: NumericModel;
+  isRunning: BooleanModel;
+  stopMultiplier: NumericModel;
+  onFinish?: () => void;
 }
 
-const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish }) => {
+const Graph: React.FC<GraphProps> = ({ speed, isRunning, stopMultiplier, onFinish }) => {
   const [data, setData] = useState<number[]>([]);
   const [steps, setSteps] = useState<number[]>([]);
   const [currentMultiplier, setCurrentMultiplier] = useState(0);
-  const [isFinished, setIsFinished] = useState(false); // Track if the graph has finished
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    if (running) {
-      // Reset graph data before starting a new run
+    if (isRunning.value) {
       setData([]);
       setSteps([]);
       setCurrentMultiplier(0);
-      setIsFinished(false); // Reset the finished state
+      setIsFinished(false);
 
       let x = 0;
       const interval = setInterval(() => {
-        // Calculate the y value for a smooth curve
-        const y = parseFloat((Math.pow(x / 10, 2) * stopMultiplier).toFixed(2)); // Quadratic function for a smooth curve
+        const y = parseFloat((Math.pow(x / 10, 2) * stopMultiplier.value).toFixed(2));
 
         setSteps((prevSteps) => [...prevSteps, parseFloat(x.toFixed(2))]);
         setData((prevData) => [...prevData, y]);
         setCurrentMultiplier(y);
 
-        if (x >= 10 || y >= stopMultiplier) {
-          clearInterval(interval); // Stop when reaching the end of the x-axis or stopMultiplier
-          setIsFinished(true); // Mark the graph as finished
+        if (x >= 10 || y >= stopMultiplier.value) {
+          clearInterval(interval);
+          setIsFinished(true);
           if (onFinish) {
-            onFinish(); // Call onFinish to re-enable the start button
+            onFinish();
           }
         }
 
-        x += 0.1; // Increment x by 0.1 for smooth progression
-      }, speed);
+        x += 0.1;
+      }, speed.value);
 
       return () => clearInterval(interval);
     }
-  }, [running, speed, stopMultiplier, onFinish]);
+  }, [isRunning.value, speed, stopMultiplier, onFinish]);
 
   const chartData = {
     labels: steps,
@@ -57,9 +57,9 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
         data: data,
         fill: false,
         borderColor: 'rgb(255, 99, 132)',
-        tension: 0.4, // Increase tension for a smoother curve
-        pointRadius: 0, // Hides individual data points
-        borderWidth: 3, // Thicker line for better visibility
+        tension: 0.4,
+        pointRadius: 0,
+        borderWidth: 3,
       },
     ],
   };
@@ -67,7 +67,7 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
   const options: ChartOptions<'line'> = {
     responsive: true,
     animation: {
-      duration: 0, // Disables default animation to control drawing manually
+      duration: 0,
     },
     scales: {
       x: {
@@ -82,22 +82,22 @@ const Graph: React.FC<GraphProps> = ({ speed, running, stopMultiplier, onFinish 
           },
         },
         grid: {
-          display: false, // Removes grid lines for a cleaner look
+          display: false,
         },
       },
       y: {
         beginAtZero: true,
         min: 0,
-        max: 10, // Limit y-axis to 10
-        display: false, // Hides y-axis labels
+        max: 10,
+        display: false,
         grid: {
-          display: false, // Removes grid lines
+          display: false,
         },
       },
     },
     plugins: {
       legend: {
-        display: false, // Hides the legend
+        display: false,
       },
     },
   };

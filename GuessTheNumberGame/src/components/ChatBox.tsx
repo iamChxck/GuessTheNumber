@@ -1,26 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PlayerData from '../model/PlayerModel';
 
 interface Message {
   sender: string;
   text: string;
 }
 
-const ChatBox: React.FC = () => {
+interface ChatBoxProps {
+  playerName: string;
+}
+
+const ChatBox: React.FC<ChatBoxProps> = ({ playerName }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const serverAddress: string = 'ws://localhost:8080';
+
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // Connect to WebSocket server
-    ws.current = new WebSocket('ws://localhost:8080');
+    ws.current = new WebSocket(serverAddress);
 
     ws.current.onopen = () => {
       console.log('Connected to WebSocket server');
     };
 
-    ws.current.onmessage = (event) => {
-      const newMessage = JSON.parse(event.data);
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    ws.current.onmessage = async (event: MessageEvent) => {
+      try {
+        const data = await event.data.text();
+        const newMessage: Message = JSON.parse(data);
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
     };
 
     ws.current.onclose = () => {
@@ -34,15 +45,15 @@ const ChatBox: React.FC = () => {
 
   const sendMessage = () => {
     if (input.trim() !== '') {
-      const message: Message = { sender: 'You', text: input };
+      const message: Message = { sender: playerName, text: input };
       ws.current?.send(JSON.stringify(message));
-      setMessages((prevMessages) => [...prevMessages, message]);
       setInput('');
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       sendMessage();
     }
   };

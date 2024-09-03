@@ -1,49 +1,46 @@
-Guess The Number Game
-Overview
-Guess The Number Game is an interactive web application where players guess when a multiplier will freeze, placing bets accordingly. The game includes AI players, a leaderboard, and a chat feature powered by WebSockets. The application is built using React with TypeScript, Tailwind CSS for styling, and a WebSocket server for real-time chat communication.
+# Getting Started with Create React App
 
-Features
-Real-time Multiplayer Game: Players and AI compete by betting on when the multiplier will stop.
-Leaderboard: Displays the top five players based on their winnings.
-Chat Feature: Allows players to communicate in real-time during the game, with AI players sending random messages.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Installation
-Clone the repository:
+## Available Scripts
 
-git clone https://github.com/your-username/guess-the-number-game.git
-cd guess-the-number-game
-Install dependencies for the main application:
+In the project directory, you can run:
 
-npm install
-Navigate to the WebSocket server directory and install its dependencies:
+### `npm start`
 
-cd websocket-server
-npm install
-cd ..
-Running the Application
-Development Mode
-Start the WebSocket server:
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-From the root directory, run:
-npm run server
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Start the React application:
-In a separate terminal, from the root directory, run:
-npm run dev
+### `npm test`
 
-Access the application:
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Open your browser and navigate to http://localhost:3000.
+### `npm run build`
 
-Production Build
-To create a production build, run:
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-npm run build
-This will generate the static files in the dist/ directory.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-Usage
-Playing the Game: Place your bet and start the game. The multiplier will increase, and you need to guess when it will freeze.
-Leaderboard: The leaderboard ranks players based on their highest winnings in a round.
-Chat: Use the chat box to communicate with other players. AI players will also send random messages at the start of the game.
-WebSocket Server
-The WebSocket server is located in the websocket-server/ directory and handles real-time communication for the chat feature. It listens for incoming messages and broadcasts them to all connected clients.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
